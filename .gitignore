@@ -70,6 +70,7 @@ node_modules/
 npm-debug.log
 /public/css/*
 /public/js/*
+/public/images/*
 
 # Laravel 4 specific
 bootstrap/compiled.php
