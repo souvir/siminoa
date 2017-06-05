@@ -1,4 +1,5 @@
 const { mix } = require('laravel-mix');
+const ImageminPlugin = require( 'imagemin-webpack-plugin' ).default;
 
 /*
  |--------------------------------------------------------------------------
@@ -13,8 +14,6 @@ const { mix } = require('laravel-mix');
 
 mix.js('resources/assets/js/app.js', 'public/js')
    .sass('resources/assets/sass/app.scss', 'public/css');
-
-   let mix = require('laravel-mix');
 
  // Full API
  // mix.js(src, output);
@@ -36,7 +35,18 @@ mix.js('resources/assets/js/app.js', 'public/js')
  // mix.setPublicPath('path/to/public');
  // mix.setResourceRoot('prefix/for/resource/locators');
  // mix.autoload({}); <-- Will be passed to Webpack's ProvidePlugin.
- // mix.webpackConfig({}); <-- Override webpack.config.js, without editing the file directly.
+ mix.webpackConfig({
+   plugins: [
+        new ImageminPlugin( {
+            pngquant: {
+                quality: '95-100',
+            },
+            test: /\.(jpe?g|png|gif|svg)$/i,
+        } ),
+    ],
+ }); // <-- Override webpack.config.js, without editing the file directly.
+ mix.copy( 'resources/assets/images', 'public/images', false );
+
  // mix.then(function () {}) <-- Will be triggered each time Webpack finishes building.
  // mix.options({
  //   extractVueStyles: false, // Extract .vue component styling to file, rather than inline.
