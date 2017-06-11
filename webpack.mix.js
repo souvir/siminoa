@@ -12,6 +12,7 @@ const ImageminPlugin = require( 'imagemin-webpack-plugin' ).default;
  |
  */
 
+
 mix.js('resources/assets/js/app.js', 'public/js')
    .sass('resources/assets/sass/app.scss', 'public/css');
 
@@ -35,8 +36,29 @@ mix.js('resources/assets/js/app.js', 'public/js')
  // mix.setPublicPath('path/to/public');
  // mix.setResourceRoot('prefix/for/resource/locators');
  // mix.autoload({}); <-- Will be passed to Webpack's ProvidePlugin.
- mix.webpackConfig({
-   plugins: [
+
+mix.webpackConfig({
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        enforce: 'pre',
+
+        loader: 'eslint-loader',
+        options: {
+          emitWarning: true,
+        },
+      },
+    ],
+  },
+  devServer: {
+    // overlay: true is equivalent
+    overlay: {
+      errors: true,
+      warnings: true,
+    },
+  },
+  plugins: [
         new ImageminPlugin( {
             pngquant: {
                 quality: '95-100',
@@ -44,8 +66,7 @@ mix.js('resources/assets/js/app.js', 'public/js')
             test: /\.(jpe?g|png|gif|svg)$/i,
         } ),
     ],
- }); // <-- Override webpack.config.js, without editing the file directly.
- mix.copy( 'resources/assets/images', 'public/images', false );
+}); //<-- Override webpack.config.js, without editing the file directly.
 
  // mix.then(function () {}) <-- Will be triggered each time Webpack finishes building.
  // mix.options({
