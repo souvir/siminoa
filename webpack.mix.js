@@ -35,7 +35,28 @@ mix.js('resources/assets/js/app.js', 'public/js')
  // mix.setPublicPath('path/to/public');
  // mix.setResourceRoot('prefix/for/resource/locators');
  // mix.autoload({}); <-- Will be passed to Webpack's ProvidePlugin.
- // mix.webpackConfig({}); <-- Override webpack.config.js, without editing the file directly.
+mix.webpackConfig({
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        enforce: 'pre',
+
+        loader: 'eslint-loader',
+        options: {
+          emitWarning: true,
+        },
+      },
+    ],
+  },
+  devServer: {
+    // overlay: true is equivalent
+    overlay: {
+      errors: true,
+      warnings: true,
+    },
+  },
+}); //<-- Override webpack.config.js, without editing the file directly.
  // mix.then(function () {}) <-- Will be triggered each time Webpack finishes building.
  // mix.options({
  //   extractVueStyles: false, // Extract .vue component styling to file, rather than inline.
