@@ -1,7 +1,7 @@
 machine:
   timezone: Europe/Paris
   php:
-    version: 7.1.0
+    version: 7.0.7
   services:
    - mysql
   environment:
@@ -14,4 +14,9 @@ dependencies:
 
 test:
   override:
-    - vendor/bin/phpunit
+    - vendor/bin/phpunit --coverage-clover=coverage.xml
+  # Upload coverage file to scrutinizer
+  post:
+    - bash <(curl -s https://codecov.io/bash) -t 890f1a9a-81a0-4466-b31a-2806a749d536
+    - wget https://scrutinizer-ci.com/ocular.phar
+    - php ocular.phar code-coverage:upload --format=php-clover coverage.xml
