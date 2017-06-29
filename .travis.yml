@@ -1,0 +1,33 @@
+language: php
+
+php:
+  - 7.0
+
+install:
+  - composer install --no-interaction --prefer-source
+
+env:
+  global:
+    - APP_ENV=local
+    - APP_KEY=base64:xZxpMuqxVqEMWQPQKERSfb81GLOzreobkoTtbK91TqY=
+
+before_script:
+  - travis_retry composer self-update
+  - travis_retry composer install --no-interaction --prefer-source
+
+script:
+  - vendor/bin/phpunit --coverage-clover=coverage.clover
+
+after_script:
+  - wget https://scrutinizer-ci.com/ocular.phar
+  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
+
+after_failure:
+  - cat storage/logs/laravel.log
+  - cat tests/_output/*
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash) -t 890f1a9a-81a0-4466-b31a-2806a749d536
+
+notifications:
+  email: false
