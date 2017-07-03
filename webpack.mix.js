@@ -58,6 +58,15 @@ mix.webpackConfig({
       warnings: true,
     },
   },
+
+  plugins: [
+    new ImageminPlugin( {
+      pngquant: {
+        quality: '95-100',
+      },
+      test: /\.(jpe?g|png|gif|svg)$/i,
+    } ),
+  ],
 }); //<-- Override webpack.config.js, without editing the file directly.
  // mix.then(function () {}) <-- Will be triggered each time Webpack finishes building.
  // mix.options({
