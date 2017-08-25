@@ -1,0 +1,22 @@
+version: '2'
+
+services:
+  web:
+    image: shin1x1/laravel-on-php7-apache
+    ports:
+      - "1234:80"
+    links:
+      - mysql
+    volumes:
+      - .:/var/www/html
+      - "./php.ini:/usr/local/etc/php/php.ini"
+    environment:
+      DB_HOST: mysql
+
+  mysql:
+    image: mysql:5.7
+    volumes:
+     - /var/lib/mysql
+    environment:
+     - MYSQL_ROOT_PASSWORD=root
+     - MYSQL_DATABASE=siminoa
