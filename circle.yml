@@ -2,15 +2,25 @@ machine:
   timezone: Europe/Paris
   php:
     version: 7.0.11
+
   services:
-   - mysql
+    - mysql
+
   environment:
-      APP_ENV: local
+      APP_ENV: testing
       APP_KEY: base64:xZxpMuqxVqEMWQPQKERSfb81GLOzreobkoTtbK91TqY=
+      DB_CONNECTION: circle
+      DB_NAME: circle_test
+      DB_USER: ubuntu
+      DB_DATABASE: circle_test
+      CACHE_DRIVER: array
+      SESSION_DRIVER: array
+      QUEUE_DRIVER: sync
 
 dependencies:
   override:
     - composer install --prefer-source --no-interaction
+    - php artisan migrate
 
 test:
   override:
