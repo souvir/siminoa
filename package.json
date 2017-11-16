@@ -1,6 +1,9 @@
 {
   "private": true,
   "scripts": {
+    "test": "npm run test:back && npm run test:front",
+    "test:back": "phpunit tests --coverage-html coverage",
+    "test:front": "echo 'TODO: front test'",
     "lint:js": "eslint resources/ webpack.*.js --cache",
     "dev": "npm run development",
     "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",

@@ -54,6 +54,30 @@ return [
             'engine' => null,
         ],
 
+        'travis' => [
+            'driver'    => 'mysql',
+            'host'      => env('DB_TEST_HOST', 'localhost'),
+            'database'  => env('DB_TEST_DATABASE', 'homestead_test'),
+            'username'  => env('DB_TEST_USERNAME', 'homestead'),
+            'password'  => env('DB_TEST_PASSWORD', 'secret'),
+            'charset'   => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix'    => '',
+            'strict'    => false,
+        ],
+
+
+        'circle' => [
+            'driver'    => 'mysql',
+            'host'      => '127.0.01',
+            'database'  => 'circle_test',
+            'username'  => 'ubuntu',
+            'password'  => '',
+            'charset'   => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix'    => '',
+        ],
+
         'pgsql' => [
             'driver' => 'pgsql',
             'host' => env('DB_HOST', '127.0.0.1'),

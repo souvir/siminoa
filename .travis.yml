@@ -3,17 +3,32 @@ language: php
 php:
   - 7.0
 
+services:
+  - mysql
+
 install:
   - composer install --no-interaction --prefer-source
 
+services:
+  - mysql
+
 env:
   global:
-    - APP_ENV=local
+    - APP_ENV=testing
     - APP_KEY=base64:xZxpMuqxVqEMWQPQKERSfb81GLOzreobkoTtbK91TqY=
+    - DB_CONNECTION=travis
+    - DB_TEST_USERNAME=root
+    - DB_TEST_PASSWORD=
+    - CACHE_DRIVER=array
+    - SESSION_DRIVER=array
+    - QUEUE_DRIVER=sync
 
 before_script:
+  - phpenv config-rm xdebug.ini
+  - mysql -e 'create database homestead_test;'
   - travis_retry composer self-update
   - travis_retry composer install --no-interaction --prefer-source
+  - php artisan migrate
 
 script:
   - vendor/bin/phpunit --coverage-clover=coverage.clover
